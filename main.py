@@ -42,9 +42,21 @@ class Person(BaseModel):
 
 #Location model
 class Location(BaseModel):
-    city: str
-    state: str
-    country: str
+    city: str = Field(
+        ...,
+        min_length=2,
+        max_length=100
+        )
+    state: str = Field(
+        ...,
+        min_length=2,
+        max_length=100
+        )
+    country: str = Field(
+        ...,
+        min_length=2,
+        max_length=100
+        )
 
 @app.get("/")
 def home():
