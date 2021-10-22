@@ -65,8 +65,7 @@ class LoginOut(BaseModel):
         max_length=20,
         example="Joshua81"
         )
-    def __init__(self, username: str ="no_user"):
-        self.username = username
+    message: str = Field(default='Login successfully!')
 #Location model
 class Location(BaseModel):
     city: str = Field(
@@ -180,4 +179,6 @@ def update_person(
     status_code=status.HTTP_200_OK
 )
 def login(username: str = Form(...), password: str = Form(...)):
-    return LoginOut(username)
+    return LoginOut(
+        username=username
+        )
