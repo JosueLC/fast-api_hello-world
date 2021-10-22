@@ -7,7 +7,7 @@ from pydantic import Field, EmailStr, HttpUrl
 #FastAPI
 from fastapi import FastAPI
 from fastapi import status
-from fastapi import Body, Query, Path
+from fastapi import Body, Query, Path, Form
 
 app = FastAPI()
 
@@ -41,7 +41,6 @@ class PersonBase(BaseModel):
     website: HttpUrl = Field(default=None)
     hair_color: Optional[HairColor] = Field(default=None)
     is_married: Optional[bool] = Field(default=None)
-
 class Person(PersonBase):
     password : str = Field(..., min_length=8)
     
@@ -60,7 +59,14 @@ class Person(PersonBase):
         }
 class PersonOut(PersonBase):
     pass
-
+class LoginOut(BaseModel):
+    username: str = Field(
+        ...,
+        max_length=20,
+        example="Joshua81"
+        )
+    def __init__(self, username: str ="no_user"):
+        self.username = username
 #Location model
 class Location(BaseModel):
     city: str = Field(
@@ -166,3 +172,12 @@ def update_person(
 # - Enum   - HttpUrl    - FilePath    - DirectoryPath   - EmailStr
 # - PaymentCardNumber   - IPvAnyAddress     - NegativeFloat     - PositiveFloat
 # - NegativeInt     - PositiveInt
+
+#Formularios
+@app.post(
+    path="/login",
+    response_model=LoginOut,
+    status_code=status.HTTP_200_OK
+)
+def login(username: str = Form(...), password: str = Form(...)):
+    return LoginOut(username)
