@@ -3,7 +3,7 @@ from typing import Optional
 from enum import Enum
 #Pydantic
 from pydantic import BaseModel
-from pydantic import Field
+from pydantic import Field, EmailStr, HttpUrl
 #FastAPI
 from fastapi import FastAPI, Body, Query, Path
 
@@ -35,6 +35,8 @@ class Person(BaseModel):
         gt=0,
         le=115
     )
+    email : EmailStr = Field(...)
+    website: HttpUrl = Field(default=None)
     hair_color: Optional[HairColor] = Field(default=None)
     is_married: Optional[bool] = Field(default=None)
 
@@ -98,3 +100,8 @@ def update_person(
     results = person.dict()
     results.update(location.dict())
     return results
+
+#Tipos de datos exóticos
+# - Enum   - HttpUrl    - FilePath    - DirectoryPath   - EmailStr
+# - PaymentCardNumber   - IPvAnyAddress     - NegativeFloat     - PositiveFloat
+# - NegativeInt     - PositiveInt
