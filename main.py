@@ -96,12 +96,14 @@ def show_person(
         min_length=1, 
         max_length=50,
         title="Person name",
-        description="This is a person name. It's between 1 and 50 characters."
+        description="This is a person name. It's between 1 and 50 characters.",
+        example="Mathias"   #Query parameters example.
         ),
     age: str = Query(
         ...,
         title="Person age",
-        description="This is the age of the person. It's required."
+        description="This is the age of the person. It's required.",
+        example=19
         )           #Obligatorio (no es lo ideal, debería ser un path parameter)
 ):
     return {name : age}
@@ -113,7 +115,8 @@ def show_person(
         ...,
         gt=0,
         title="Person id",
-        description="This is a person id. It's a number greater than zero."
+        description="This is a person id. It's a number greater than zero.",
+        example=19
         )
 ):
     return {person_id : "It exists."}
@@ -125,7 +128,8 @@ def update_person(
         ...,
         title="Person id",
         description="This is a person id.",
-        gt=0
+        gt=0,
+        example=19
     ),
     person: Person = Body(...),
     location: Location = Body(...)
